@@ -206,7 +206,17 @@ public class BloorPlebsMap implements Serializable {
                 if (map[i][j].getType() == Tile.TileType.PLAYER_ATTACK) {
                     map[i][j] = new Path();
                 } else if (map[i][j].getType() == Tile.TileType.UNIT) {
-                    ((Unit) map[i][j]).setUnitAttacked(false, null);
+                    Unit u = (Unit) map[i][j];
+                    // If the unit is dead remove it, otherwise set unit as not attacked
+                    if (u.isUnitDead()) {
+                        map[i][j] = new Path();
+                        // If the dead unit is NPC reduce the number of NPCs on the map
+                        if (u instanceof NPC) {
+                            currentNpcOnMap--;
+                        }
+                    } else {
+                        u.setUnitAttacked(false, null);
+                    }
                 }
             }
         }

@@ -40,7 +40,7 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
         // Add items
         tilesMap.put("I", "resources/item.png");
         // Add player
-        tilesMap.put("P", "resources/player.png");
+        tilesMap.put("P", "resources/player/player.png");
         // Add status bar
         tilesMap.put("S", "resources/statusbar.png");
         // Add horizontal player attack

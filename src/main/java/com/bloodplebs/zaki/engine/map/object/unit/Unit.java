@@ -1,6 +1,5 @@
 package com.bloodplebs.zaki.engine.map.object.unit;
 
-import com.bloodplebs.zaki.engine.map.BloorPlebsMap;
 import com.bloodplebs.zaki.engine.map.geometry.Point;
 import com.bloodplebs.zaki.engine.map.object.unit.core.Direction;
 import com.bloodplebs.zaki.engine.map.object.unit.race.Race;
@@ -54,16 +53,47 @@ public abstract class Unit extends TileImpl {
         setDirectionOfAttack(direction);
     }
 
-    public abstract void launchAttack(Unit u);
-    public abstract void levelUp();
-    public abstract void collectItem(Item i);
-    public abstract void move(Direction direction, Point location);
+    public void launchAttack(Unit u) {
+        u.takePhysicalDamage(getAttackPower());
+        if (u.isUnitDead()) {
+            gainExperience();
+        }
+    }
 
-    protected void takePhysicalDamage(int attack) {
+    public void levelUp() {
 
     }
 
-    protected void takeMagicalDamage(int magic) {
+    public abstract void collectItem(Item i);
+    public abstract void move(Direction direction, Point location);
+
+    private void takePhysicalDamage(int attack) {
+        int dmgToReceive = attack - statusBar.getArmor();
+        if (dmgToReceive < 0) {
+            dmgToReceive = 0;
+        }
+        int currentHp = statusBar.getHealth();
+        currentHp -= dmgToReceive;
+
+        if (currentHp < 0) {
+            currentHp = 0;
+        }
+        statusBar.setHealth(currentHp);
+    }
+
+    private void takeMagicalDamage(int magic) {
+    }
+
+    public boolean isUnitDead() {
+        return statusBar.getHealth() <= 0;
+    }
+
+    protected int getAttackPower() {
+        return statusBar.getAttackPower();
+    }
+
+    protected int getMagicPower() {
+        return statusBar.getMagicPower();
     }
 
     private void setDirectionOfAttack(Direction direction) {
@@ -72,5 +102,9 @@ public abstract class Unit extends TileImpl {
 
     private void setUnitAttacked(boolean attacked) {
         this.isUnitUnderAttack = attacked;
+    }
+
+    protected void gainExperience() {
+        statusBar.setExperience(statusBar.getExperience() + 5);
     }
 }

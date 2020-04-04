@@ -54,18 +54,8 @@ public class Player extends Unit {
         return itemsCollected;
     }
 
-    @Override
-    public void launchAttack(Unit u) {
-        //u.takePhysicalDamage(getAttack());
-    }
-
-    @Override
-    public void levelUp() {
-
-    }
-
     private static StatusBar getPlayerStatusBar() {
-        return new StatusBar(10, 10, 5, 5, 100, 60);
+        return new StatusBar(30, 10, 5, 5, 100, 60);
     }
 
     @Override
