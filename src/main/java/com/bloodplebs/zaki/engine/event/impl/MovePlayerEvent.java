@@ -1,5 +1,6 @@
 package com.bloodplebs.zaki.engine.event.impl;
 
+import com.bloodplebs.zaki.client.gui.event.EventType;
 import com.bloodplebs.zaki.engine.map.object.unit.core.Direction;
 import com.bloodplebs.zaki.engine.map.object.unit.impl.Player;
 import org.json.JSONObject;
@@ -21,5 +22,10 @@ public class MovePlayerEvent extends ClientEvent {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public EventType getEventType() {
+        return EventType.MOVE;
     }
 }

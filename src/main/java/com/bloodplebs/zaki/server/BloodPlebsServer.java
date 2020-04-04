@@ -1,6 +1,7 @@
 package com.bloodplebs.zaki.server;
 
 import com.bloodplebs.zaki.engine.GameEngine;
+import com.bloodplebs.zaki.engine.event.EventFactory;
 import com.bloodplebs.zaki.engine.impl.BloodPlebsGameEngine;
 import com.bloodplebs.zaki.engine.map.object.unit.race.Race;
 import com.bloodplebs.zaki.server.exception.InvalidRaceException;
@@ -43,6 +44,10 @@ public class BloodPlebsServer {
         GameEngine engine = new BloodPlebsGameEngine();
         this.gameManager = new GameManager(engine);
         this.clientListener = new ClientListener(engine);
+
+        // This is not a listener, but we will think later for that one
+        // TODO
+        EventFactory.init(engine);
     }
 
     private void initServer() throws IOException {
@@ -133,6 +138,10 @@ public class BloodPlebsServer {
         if (user != null) {
             JSONObject response = new JSONObject();
             response.put("loginResult", true);
+
+            // Send some more preloaded information to load client application
+            response.put("mapSize", gameManager.getGameEngine().getMap().getSize());
+
             MsgUtils.sendMessage(client, response);
         }
 

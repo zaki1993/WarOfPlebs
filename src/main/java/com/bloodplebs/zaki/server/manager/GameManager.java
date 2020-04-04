@@ -46,13 +46,18 @@ public class GameManager extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            clearMap();
             displayMap();
         }
     }
 
+    private void clearMap() {
+        gameEngine.getMap().clearJunk();
+    }
+
     private void displayMap() {
-        System.out.print("\033[H\033[2J");
-        gameEngine.getMap().print();
+        //System.out.print("\033[H\033[2J");
+        //gameEngine.getMap().print();
     }
 
     public void stopListening() {
@@ -66,5 +71,9 @@ public class GameManager extends Thread {
                 throw new UserAlreadyExistsException();
             }
         }
+    }
+
+    public GameEngine getGameEngine() {
+        return gameEngine;
     }
 }

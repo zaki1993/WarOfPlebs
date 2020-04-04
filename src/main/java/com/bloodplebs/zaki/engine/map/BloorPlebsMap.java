@@ -8,6 +8,7 @@ import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Wall;
 import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Item;
 import com.bloodplebs.zaki.engine.map.object.unit.tile.Tile;
 import com.bloodplebs.zaki.engine.map.object.unit.impl.Player;
+import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.attack.PlayerAttack;
 
 import java.io.Serializable;
 
@@ -22,8 +23,6 @@ public class BloorPlebsMap implements Serializable {
     private static final int SPAWN_ITEM_PERCENTAGE = 1;
 
     private static final int SPAWN_NPC_PERCENTAGE = 2;
-
-    private static final char WALL = '#';
 
     private final Tile[][] map;
 
@@ -40,21 +39,6 @@ public class BloorPlebsMap implements Serializable {
         this.currentNpcOnMap = 0;
         this.currentItemsOnMap = 0;
         generateMap();
-    }
-
-    private void generateMap() {
-        generateWalls();
-        fillPaths();
-    }
-
-    private void fillPaths() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map.length; j++) {
-                if (map[i][j] == null) {
-                    map[i][j] = new Path();
-                }
-            }
-        }
     }
 
     /**
@@ -80,24 +64,6 @@ public class BloorPlebsMap implements Serializable {
                 currentItemsOnMap++;
             }
         } while (itemsToSpawn > 0);
-    }
-
-    private Item getRandomItem() {
-        return new Item();
-    }
-
-    private void generateWalls() {
-        // Top and bottom wall
-        for (int i = 0; i < map.length; i++) {
-            map[0][i] = new Wall();
-            map[map.length - 1][i] = new Wall();
-        }
-
-        // Left and right wall
-        for (int i = 1; i < map.length - 1; i++) {
-            map[i][0] = new Wall();
-            map[i][map.length - 1] = new Wall();
-        }
     }
 
     public void print() {
@@ -176,11 +142,17 @@ public class BloorPlebsMap implements Serializable {
         return new NPC();
     }
 
-    public void movePlayer(Direction direction, Player player) {
-        Point playerLocation = findPlayer(player);
+    public void launchAttack(Player player) {
 
+        Point playerLocation = player.getPlayerLocation();
         int newX = playerLocation.getX();
         int newY = playerLocation.getY();
+
+        int oldX = newX;
+        int oldY = newY;
+
+        Direction direction = player.getLastPlayerMove();
+
         if (direction == Direction.LEFT) {
             newX -= 1;
         } else if (direction == Direction.RIGHT) {
@@ -191,11 +163,65 @@ public class BloorPlebsMap implements Serializable {
             newY += 1;
         }
 
-        boolean isValidMove = isValidLocation(newX, newY);
-        if (isValidMove) {
-            map[newX][newY] = player;
-            map[playerLocation.getY()][playerLocation.getY()] = new Path();
+        if (isValidPositionForAttack(newX, newY)) {
+            map[newX][newY] = new PlayerAttack();
+
+            // Call player.launchAttack(), provides additional independent logic to the player
+            player.launchAttack();
         }
+    }
+
+    public void movePlayer(Direction direction, Player player) {
+        Point playerLocation = findPlayer(player);
+
+        int newX = playerLocation.getX();
+        int newY = playerLocation.getY();
+
+        int oldX = newX;
+        int oldY = newY;
+        if (direction == Direction.LEFT) {
+            newX -= 1;
+        } else if (direction == Direction.RIGHT) {
+            newX += 1;
+        } else if (direction == Direction.UP) {
+            newY -= 1;
+        } else {
+            newY += 1;
+        }
+
+        if (isValidPositionForMove(newX, newY)) {
+            Tile currentObjOnMap = map[newX][newY];
+            if (currentObjOnMap.getType() == Tile.TileType.ITEM) {
+                collectItem(player, (Item) currentObjOnMap);
+            }
+            map[newX][newY] = player;
+            map[oldX][oldY] = new Path();
+
+            // Call player.move(), provides additional independent logic to the player
+            player.move(direction, new Point(newX, newY));
+        } else {
+            player.setLastPositionMove(direction);
+        }
+    }
+
+    public int getSize() {
+        return map.length;
+    }
+
+    // Clears attacks and other junks on the map
+    public void clearJunk() {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map.length; j++) {
+                if (map[i][j].getType() == Tile.TileType.PLAYER_ATTACK) {
+                    map[i][j] = new Path();
+                }
+            }
+        }
+    }
+
+    private void collectItem(Player player, Item currentObjOnMap) {
+        player.collectItem(currentObjOnMap);
+        currentItemsOnMap--;
     }
 
     private Point findPlayer(Player p) {
@@ -217,7 +243,44 @@ public class BloorPlebsMap implements Serializable {
         return playerLocation;
     }
 
-    private boolean isValidLocation(int x, int y) {
+    private boolean isValidPositionForMove(int x, int y) {
+        return x >= 1 && y >= 1 && x <= map.length - 1 && y <= map.length - 1 && map[x][y] != null && (map[x][y].getType() == Tile.TileType.PATH || map[x][y].getType() == Tile.TileType.ITEM);
+    }
+
+    private boolean isValidPositionForAttack(int x, int y) {
         return x >= 1 && y >= 1 && x <= map.length - 1 && y <= map.length - 1 && map[x][y] != null && map[x][y].getType() == Tile.TileType.PATH;
+    }
+
+    private Item getRandomItem() {
+        return new Item();
+    }
+
+    private void generateWalls() {
+        // Top and bottom wall
+        for (int i = 0; i < map.length; i++) {
+            map[0][i] = new Wall();
+            map[map.length - 1][i] = new Wall();
+        }
+
+        // Left and right wall
+        for (int i = 1; i < map.length - 1; i++) {
+            map[i][0] = new Wall();
+            map[i][map.length - 1] = new Wall();
+        }
+    }
+
+    private void generateMap() {
+        generateWalls();
+        fillPaths();
+    }
+
+    private void fillPaths() {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map.length; j++) {
+                if (map[i][j] == null) {
+                    map[i][j] = new Path();
+                }
+            }
+        }
     }
 }

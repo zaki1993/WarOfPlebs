@@ -1,8 +1,10 @@
 package com.bloodplebs.zaki.engine.map.object.unit;
 
 import com.bloodplebs.zaki.engine.map.BloorPlebsMap;
+import com.bloodplebs.zaki.engine.map.geometry.Point;
 import com.bloodplebs.zaki.engine.map.object.unit.core.Direction;
 import com.bloodplebs.zaki.engine.map.object.unit.race.Race;
+import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Item;
 import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.TileImpl;
 
 /**
@@ -35,6 +37,8 @@ public abstract class Unit extends TileImpl {
         return level;
     }
 
-    public abstract void fight(Unit other);
+    public abstract void launchAttack();
     public abstract void levelUp();
+    public abstract void collectItem(Item i);
+    public abstract void move(Direction direction, Point location);
 }

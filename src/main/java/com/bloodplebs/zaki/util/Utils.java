@@ -3,8 +3,12 @@ package com.bloodplebs.zaki.util;
 import com.bloodplebs.zaki.engine.map.object.unit.core.Direction;
 import com.bloodplebs.zaki.engine.map.object.unit.impl.Player;
 import com.bloodplebs.zaki.engine.map.object.unit.race.Race;
+import com.bloodplebs.zaki.server.User;
 import com.bloodplebs.zaki.server.exception.InvalidDirectionException;
 import com.bloodplebs.zaki.server.exception.InvalidRaceException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Utils {
 
@@ -35,8 +39,10 @@ public final class Utils {
         return result;
     }
 
-    public static Player getPlayerByName(String playerName) {
-        // TODO
-        return new Player(playerName, Race.HUMAN);
+    public static Player getPlayerByName(List<Player> players, String playerName) {
+
+        List<Player> matches = players.stream().filter(player -> player.getUsername().equals(playerName)).collect(Collectors.toList());
+
+        return matches != null && !matches.isEmpty() ? matches.get(0) : null;
     }
 }

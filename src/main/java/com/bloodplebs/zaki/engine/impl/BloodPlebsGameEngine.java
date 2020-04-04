@@ -1,10 +1,13 @@
 package com.bloodplebs.zaki.engine.impl;
 
+import com.bloodplebs.zaki.client.gui.event.EventType;
 import com.bloodplebs.zaki.engine.GameEngine;
 import com.bloodplebs.zaki.engine.event.Event;
+import com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent;
 import com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent;
 import com.bloodplebs.zaki.engine.map.BloorPlebsMap;
 import com.bloodplebs.zaki.server.User;
+import com.bloodplebs.zaki.server.log.ServerLogger;
 
 public class BloodPlebsGameEngine extends GameEngine {
 
@@ -20,9 +23,13 @@ public class BloodPlebsGameEngine extends GameEngine {
 
     @Override
     public void handleClientEvent(Event clientEvent) {
-        if (clientEvent instanceof MovePlayerEvent) {
+        ServerLogger.LOGGER.info("Received event: " + clientEvent);
+        if (clientEvent.getEventType() == EventType.MOVE) {
             MovePlayerEvent moveEvent = (MovePlayerEvent) clientEvent;
             getMap().movePlayer(moveEvent.getDirection(), moveEvent.getPlayer());
+        } else if (clientEvent.getEventType() == EventType.ATTACK) {
+            AttackPlayerEvent attackPlayerEvent = (AttackPlayerEvent) clientEvent;
+            getMap().launchAttack(attackPlayerEvent.getPlayer());
         }
     }
 

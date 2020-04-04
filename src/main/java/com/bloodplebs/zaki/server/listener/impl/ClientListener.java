@@ -115,8 +115,9 @@ public class ClientListener extends Thread implements Listener {
 
     private Event getEvent(JSONObject response) throws InvalidEventDataException {
 
-        JSONObject eventData = response.getJSONObject("event");
-        return EventFactory.buildEvent(eventData);
+        String eventData = response.getString("event");
+        JSONObject eventJson = new JSONObject(eventData);
+        return EventFactory.buildEvent(eventJson);
     }
 
     private void notifyClients() throws IOException {
@@ -124,7 +125,7 @@ public class ClientListener extends Thread implements Listener {
             List<User> users = engine.getUserList();
             JSONObject gameInfo = getGameInfo();
             for (User user : users) {
-                ClientListenerLogger.LOGGER.info("Notifying user " + user);
+                //ClientListenerLogger.LOGGER.info("Notifying user " + user);
                 Socket client = user.getConnection();
                 if (client != null) {
                     notifyClient(client, gameInfo);
