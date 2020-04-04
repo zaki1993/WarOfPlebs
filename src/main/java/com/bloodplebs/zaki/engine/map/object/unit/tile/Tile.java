@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface Tile extends Serializable {
     enum TileType {
-        WALL, ITEM, PLAYER, NPC, PATH, PLAYER_ATTACK
+        WALL, ITEM, UNIT, PATH, PLAYER_ATTACK
     }
 
     String print();

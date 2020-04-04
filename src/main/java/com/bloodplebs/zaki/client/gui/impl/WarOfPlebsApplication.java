@@ -1,6 +1,7 @@
-package com.bloodplebs.zaki.client.gui;
+package com.bloodplebs.zaki.client.gui.impl;
 
 import com.bloodplebs.zaki.client.WarOfPlebsClient;
+import com.bloodplebs.zaki.client.gui.ClientCaller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.json.JSONArray;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,21 +26,27 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
 
     private static final int STATUS_BAR_HEIGHT = 1;
 
-    private static Map<Character, String> tilesMap = new HashMap<>();
+    private static Map<String, String> tilesMap = new HashMap<>();
 
     static {
         // Add wall
-        tilesMap.put('#', "resources/wall.png");
+        tilesMap.put("#", "resources/wall.png");
         // Add path
-        tilesMap.put('_', "resources/path.png");
+        tilesMap.put("_", "resources/path.png");
         // Add npc
-        tilesMap.put('N', "resources/npc.png");
+        tilesMap.put("NPC", "resources/npc/npc.png");
+        tilesMap.put("NPC_VERTICAL_ATTACK", "resources/npc/npc_attack_vertical.png");
+        tilesMap.put("NPC_HORIZONTAL_ATTACK", "resources/npc/npc_attack_horizontal.png");
         // Add items
-        tilesMap.put('I', "resources/item.png");
+        tilesMap.put("I", "resources/item.png");
         // Add player
-        tilesMap.put('P', "resources/player.png");
+        tilesMap.put("P", "resources/player.png");
         // Add status bar
-        tilesMap.put('S', "resources/statusbar.png");
+        tilesMap.put("S", "resources/statusbar.png");
+        // Add horizontal player attack
+        tilesMap.put("HPA", "resources/attack/horizontal_player_attack.png");
+        // Add vertical player attack
+        tilesMap.put("VPA", "resources/attack/vertical_player_attack.png");
     }
 
     private Scene sc;
@@ -90,7 +98,7 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
     }
 
     @Override
-    public void displayMap(String tiles) {
+    public void displayMap(JSONArray tiles) {
         Platform.runLater(() -> {
             try {
                 clearMap();
@@ -106,22 +114,20 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
         playground.getChildren().removeAll(playground.getChildren());
     }
 
-    private void paintMap(String tiles) throws FileNotFoundException {
-
-
-        String[] tileRows = tiles.split("\n");
+    private void paintMap(JSONArray tiles) throws FileNotFoundException {
 
         // status bar
-        for (int i = 0; i < tileRows.length; i++) {
-            ImageView img = getImageFromTile('S');
+        for (int i = 0; i < tiles.length(); i++) {
+            ImageView img = getImageFromTile("S");
             if (img != null) {
                 playground.add(img, i, 0);
             }
         }
 
-        for (int x = 0; x < tileRows.length; x++) {
-            for (int y = 0; y < tileRows[x].length(); y++) {
-                char tile = tileRows[x].charAt(y);
+        for (int x = 0; x < tiles.length(); x++) {
+            JSONArray row = tiles.getJSONArray(x);
+            for (int y = 0; y < tiles.length(); y++) {
+                String tile = row.getString(y);
                 ImageView img = getImageFromTile(tile);
                 if (img != null) {
                     playground.add(img, x, y + STATUS_BAR_HEIGHT);
@@ -130,7 +136,7 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
         }
     }
 
-    private ImageView getImageFromTile(char tile) throws FileNotFoundException {
+    private ImageView getImageFromTile(String tile) throws FileNotFoundException {
 
         String resource = tilesMap.get(tile);
         if (resource != null) {

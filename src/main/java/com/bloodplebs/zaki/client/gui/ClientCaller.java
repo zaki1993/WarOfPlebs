@@ -1,5 +1,7 @@
 package com.bloodplebs.zaki.client.gui;
 
+import org.json.JSONArray;
+
 public interface ClientCaller {
-    void displayMap(String tiles);
+    void displayMap(JSONArray tiles);
 }

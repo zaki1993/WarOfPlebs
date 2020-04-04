@@ -9,6 +9,7 @@ import com.bloodplebs.zaki.json.Json;
 import com.bloodplebs.zaki.json.LoginParser;
 import com.bloodplebs.zaki.util.MsgUtils;
 import javafx.scene.input.KeyCode;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -97,7 +98,7 @@ public class WarOfPlebsClient extends Thread {
     }
 
     private void displayMap(JSONObject map) {
-        String tiles = map.getString("tiles");
+        JSONArray tiles = map.getJSONArray("tiles");
         caller.displayMap(tiles);
     }
 

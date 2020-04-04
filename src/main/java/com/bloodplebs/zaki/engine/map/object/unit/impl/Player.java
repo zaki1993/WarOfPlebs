@@ -20,7 +20,7 @@ public class Player extends Unit {
     private String username;
 
     public Player(String username, Race race) {
-        super(getPlayerStatusBar(), race, TileType.PLAYER);
+        super(getPlayerStatusBar(), race, TileType.UNIT);
         this.username = username;
         this.itemsCollected = 0;
 
@@ -55,8 +55,8 @@ public class Player extends Unit {
     }
 
     @Override
-    public void launchAttack() {
-
+    public void launchAttack(Unit u) {
+        //u.takePhysicalDamage(getAttack());
     }
 
     @Override
@@ -92,5 +92,9 @@ public class Player extends Unit {
 
     public void setLastPositionMove(Direction direction) {
         this.lastPlayerMove = direction;
+    }
+
+    public void spawn(Point point) {
+        this.playerLocation = point;
     }
 }

@@ -1,14 +1,16 @@
 package com.bloodplebs.zaki.engine.map;
 
 import com.bloodplebs.zaki.engine.map.geometry.Point;
+import com.bloodplebs.zaki.engine.map.object.unit.Unit;
 import com.bloodplebs.zaki.engine.map.object.unit.core.Direction;
 import com.bloodplebs.zaki.engine.map.object.unit.impl.NPC;
+import com.bloodplebs.zaki.engine.map.object.unit.impl.Player;
+import com.bloodplebs.zaki.engine.map.object.unit.tile.Tile;
+import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Item;
 import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Path;
 import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Wall;
-import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.Item;
-import com.bloodplebs.zaki.engine.map.object.unit.tile.Tile;
-import com.bloodplebs.zaki.engine.map.object.unit.impl.Player;
-import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.attack.PlayerAttack;
+import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.attack.impl.HorizontalPlayerAttack;
+import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.attack.impl.VerticalPlayerAttack;
 
 import java.io.Serializable;
 
@@ -66,34 +68,17 @@ public class BloorPlebsMap implements Serializable {
         } while (itemsToSpawn > 0);
     }
 
-    public void print() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map.length; j++) {
-                if (map[i][j] != null) {
-                    System.out.print(map[i][j].print() + " ");
-                } else {
-                    System.out.print("  ");
-                }
-            }
-            System.out.println();
-        }
-    }
+    public String[][] getAsString() {
 
-    public String getAsString() {
-
+        String[][] result = new String[map.length][map.length];
         StringBuilder mapAsString = new StringBuilder();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map.length; j++) {
-                if (map[i][j] != null) {
-                    mapAsString.append(map[i][j].print()).append(" ");
-                } else {
-                    mapAsString.append("  ");
-                }
+                result[i][j] = map[i][j].print();
             }
-            mapAsString.append("\n");
         }
 
-        return mapAsString.toString();
+        return result;
     }
 
     public void spawnPlayer(Player player) {
@@ -107,6 +92,7 @@ public class BloorPlebsMap implements Serializable {
             if (map[x][y].getType() == Tile.TileType.PATH) {
                 map[x][y] = player;
                 playerSpawned = true;
+                player.spawn(new Point(x, y));
             }
         } while (!playerSpawned);
     }
@@ -148,9 +134,6 @@ public class BloorPlebsMap implements Serializable {
         int newX = playerLocation.getX();
         int newY = playerLocation.getY();
 
-        int oldX = newX;
-        int oldY = newY;
-
         Direction direction = player.getLastPlayerMove();
 
         if (direction == Direction.LEFT) {
@@ -163,11 +146,19 @@ public class BloorPlebsMap implements Serializable {
             newY += 1;
         }
 
+        boolean isVerticalAttack = direction == Direction.DOWN || direction == Direction.UP;
         if (isValidPositionForAttack(newX, newY)) {
-            map[newX][newY] = new PlayerAttack();
-
-            // Call player.launchAttack(), provides additional independent logic to the player
-            player.launchAttack();
+            if (map[newX][newY].getType() == Tile.TileType.PATH) {
+                if (isVerticalAttack) {
+                    map[newX][newY] = new VerticalPlayerAttack();
+                } else {
+                    map[newX][newY] = new HorizontalPlayerAttack();
+                }
+            } else {
+                Unit unit = (Unit) map[newX][newY];
+                unit.setUnitAttacked(true, direction);
+                player.launchAttack(unit);
+            }
         }
     }
 
@@ -214,6 +205,8 @@ public class BloorPlebsMap implements Serializable {
             for (int j = 0; j < map.length; j++) {
                 if (map[i][j].getType() == Tile.TileType.PLAYER_ATTACK) {
                     map[i][j] = new Path();
+                } else if (map[i][j].getType() == Tile.TileType.UNIT) {
+                    ((Unit) map[i][j]).setUnitAttacked(false, null);
                 }
             }
         }
@@ -248,7 +241,7 @@ public class BloorPlebsMap implements Serializable {
     }
 
     private boolean isValidPositionForAttack(int x, int y) {
-        return x >= 1 && y >= 1 && x <= map.length - 1 && y <= map.length - 1 && map[x][y] != null && map[x][y].getType() == Tile.TileType.PATH;
+        return x >= 1 && y >= 1 && x <= map.length - 1 && y <= map.length - 1 && map[x][y] != null && (map[x][y].getType() == Tile.TileType.PATH || map[x][y].getType() == Tile.TileType.UNIT);
     }
 
     private Item getRandomItem() {

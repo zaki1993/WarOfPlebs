@@ -14,6 +14,10 @@ import com.bloodplebs.zaki.engine.map.object.unit.tile.impl.TileImpl;
  */
 public abstract class Unit extends TileImpl {
 
+    private boolean isUnitUnderAttack;
+
+    private Direction directionOfAttack;
+
     private enum Level {
         NEW;
     }
@@ -37,8 +41,36 @@ public abstract class Unit extends TileImpl {
         return level;
     }
 
-    public abstract void launchAttack();
+    public Direction getDirectionOfAttack() {
+        return directionOfAttack;
+    }
+
+    public boolean isUnitUnderAttack() {
+        return isUnitUnderAttack;
+    }
+
+    public void setUnitAttacked(boolean attacked, Direction direction) {
+        setUnitAttacked(attacked);
+        setDirectionOfAttack(direction);
+    }
+
+    public abstract void launchAttack(Unit u);
     public abstract void levelUp();
     public abstract void collectItem(Item i);
     public abstract void move(Direction direction, Point location);
+
+    protected void takePhysicalDamage(int attack) {
+
+    }
+
+    protected void takeMagicalDamage(int magic) {
+    }
+
+    private void setDirectionOfAttack(Direction direction) {
+        this.directionOfAttack = direction;
+    }
+
+    private void setUnitAttacked(boolean attacked) {
+        this.isUnitUnderAttack = attacked;
+    }
 }
