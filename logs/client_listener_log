@@ -1,2 +1,5 @@
-INFO :: Sun Apr 05 14:15:13 EET 2020 :: Initializing client listener..!
-INFO :: Sun Apr 05 14:15:13 EET 2020 :: Client listener is listening..!
+INFO :: Sun Apr 05 15:31:00 EET 2020 :: Initializing client listener..!
+INFO :: Sun Apr 05 15:31:00 EET 2020 :: Client listener is listening..!
+INFO :: Sun Apr 05 15:33:00 EET 2020 :: User has connected: com.warofplebs.zaki.server.user.User@213e912d
+INFO :: Sun Apr 05 15:34:49 EET 2020 :: User has connected: com.warofplebs.zaki.server.user.User@1eccbae3
+INFO :: Sun Apr 05 15:48:35 EET 2020 :: User com.warofplebs.zaki.server.user.User@1eccbae3 has disconnected..!

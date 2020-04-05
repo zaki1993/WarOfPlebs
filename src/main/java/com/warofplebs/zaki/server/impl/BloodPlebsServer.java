@@ -18,8 +18,7 @@ import com.warofplebs.zaki.util.Utils;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -57,7 +56,7 @@ public class BloodPlebsServer {
 
     private void initServer() throws IOException {
         ServerLogger.LOGGER.info("Initializing server..!");
-        this.serverSocket = new ServerSocket(GAME_PORT, MAX_PLAYER_QUEUE);
+        this.serverSocket = new ServerSocket(GAME_PORT, MAX_PLAYER_QUEUE, InetAddress.getByName("192.168.0.101"));
         this.running = false;
     }
 

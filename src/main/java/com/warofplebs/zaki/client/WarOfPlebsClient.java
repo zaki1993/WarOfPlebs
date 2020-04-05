@@ -43,11 +43,8 @@ public class WarOfPlebsClient extends Thread {
 
     public int login() throws IOException, InvalidLoginDataException {
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        this.username = "zdravko";//sc.nextLine();
-        System.out.println("Enter race: ");
-        this.race = "HUMAN";//sc.nextLine();
+        this.username = "pesho";
+        this.race = "HUMAN";
 
         // Send login data to server
         JSONObject json = LoginParser.constructLoginData(username, race);
@@ -60,6 +57,8 @@ public class WarOfPlebsClient extends Thread {
         if (!connected) {
             throw new InvalidLoginDataException();
         }
+
+        System.out.println("Connected to the server");
 
         // load map info to prepare application
         return response.getInt("mapSize");

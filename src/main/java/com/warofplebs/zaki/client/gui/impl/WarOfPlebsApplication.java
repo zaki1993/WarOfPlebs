@@ -2,6 +2,7 @@ package com.warofplebs.zaki.client.gui.impl;
 
 import com.warofplebs.zaki.client.WarOfPlebsClient;
 import com.warofplebs.zaki.client.gui.ClientCaller;
+import com.warofplebs.zaki.util.Utils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -16,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class WarOfPlebsApplication extends Application implements ClientCaller {
 
@@ -58,8 +58,7 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Scanner scanner = new Scanner(System.in);
-        String host = "localhost";//scanner.nextLine();
+        String host = "192.168.0.101";
 
         this.client = new WarOfPlebsClient(host, this);
         int mapSize = client.login();
@@ -104,10 +103,9 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
                 clearMap();
                 paintMap(tiles);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Utils.noop();
             }
         });
-
     }
 
     private void clearMap() {
@@ -140,7 +138,7 @@ public class WarOfPlebsApplication extends Application implements ClientCaller {
 
         String resource = tilesMap.get(tile);
         if (resource != null) {
-            InputStream fileStream = new FileInputStream(resource);
+            InputStream fileStream = new FileInputStream(Utils.USER_DIR + "/" + resource);
             if (fileStream != null) {
                 Image img = new Image(fileStream);
                 if (img != null) {
