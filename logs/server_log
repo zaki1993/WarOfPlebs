@@ -1,41 +1,5 @@
-INFO :: Sat Apr 04 22:12:11 EET 2020 :: Initializing server..!
-INFO :: Sat Apr 04 22:12:11 EET 2020 :: Initializing listeners..!
-INFO :: Sat Apr 04 22:12:11 EET 2020 :: Starting server..!
-INFO :: Sat Apr 04 22:12:11 EET 2020 :: Starting listeners..!
-INFO :: Sat Apr 04 22:12:11 EET 2020 :: Server is started running on port 6060
-INFO :: Sat Apr 04 22:12:14 EET 2020 :: Connection established with Socket[addr=/127.0.0.1,port=58840,localport=6060]
-INFO :: Sat Apr 04 22:12:34 EET 2020 :: Connection established with Socket[addr=/127.0.0.1,port=58852,localport=6060]
-INFO :: Sat Apr 04 22:12:40 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@1a13e8fa
-INFO :: Sat Apr 04 22:12:41 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@4dd329e4
-INFO :: Sat Apr 04 22:12:42 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@735c9b07
-INFO :: Sat Apr 04 22:12:43 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@354d5f08
-INFO :: Sat Apr 04 22:12:44 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@6df0204a
-INFO :: Sat Apr 04 22:12:45 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@6eef8087
-INFO :: Sat Apr 04 22:12:47 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@2b8482ed
-INFO :: Sat Apr 04 22:12:48 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@fbe98b4
-INFO :: Sat Apr 04 22:12:49 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@1fa7521f
-INFO :: Sat Apr 04 22:12:50 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@6ec9c9a0
-INFO :: Sat Apr 04 22:12:51 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@35283abe
-INFO :: Sat Apr 04 22:12:52 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@6aaec7ab
-INFO :: Sat Apr 04 22:12:53 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@2167d1f1
-INFO :: Sat Apr 04 22:12:54 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@61b26a7b
-INFO :: Sat Apr 04 22:12:55 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@3179376d
-INFO :: Sat Apr 04 22:12:56 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@647eb754
-INFO :: Sat Apr 04 22:12:57 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@76a8e37d
-INFO :: Sat Apr 04 22:12:58 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@16e92958
-INFO :: Sat Apr 04 22:12:59 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@285ac692
-INFO :: Sat Apr 04 22:13:00 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@60bff386
-INFO :: Sat Apr 04 22:13:01 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@41dd06a8
-INFO :: Sat Apr 04 22:13:02 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@6fd26470
-INFO :: Sat Apr 04 22:13:03 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@6cc6f3a2
-INFO :: Sat Apr 04 22:13:04 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@42c19302
-INFO :: Sat Apr 04 22:13:05 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@1a01c544
-INFO :: Sat Apr 04 22:13:06 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@9c390de
-INFO :: Sat Apr 04 22:13:07 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@4b88765
-INFO :: Sat Apr 04 22:13:08 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@5dd0ebc7
-INFO :: Sat Apr 04 22:13:09 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.MovePlayerEvent@69d2ec87
-INFO :: Sat Apr 04 22:13:10 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@4055394c
-INFO :: Sat Apr 04 22:13:11 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@16a3b196
-INFO :: Sat Apr 04 22:13:12 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@311a0ce4
-INFO :: Sat Apr 04 22:13:13 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@6b4da60c
-INFO :: Sat Apr 04 22:13:15 EET 2020 :: Received event: com.bloodplebs.zaki.engine.event.impl.AttackPlayerEvent@5cd7c2f2
+INFO :: Sun Apr 05 14:15:13 EET 2020 :: Initializing server..!
+INFO :: Sun Apr 05 14:15:13 EET 2020 :: Initializing listeners..!
+INFO :: Sun Apr 05 14:15:13 EET 2020 :: Starting server..!
+INFO :: Sun Apr 05 14:15:13 EET 2020 :: Starting listeners..!
+INFO :: Sun Apr 05 14:15:13 EET 2020 :: Server is started running on port 6060
